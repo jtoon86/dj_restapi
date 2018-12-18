@@ -38,6 +38,8 @@ INSTALLED_APPS = [
 
     # 3rd Party
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
 
     # Local
     'default_api.apps.DefaultApiConfig',
