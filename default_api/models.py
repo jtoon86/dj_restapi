@@ -28,3 +28,21 @@ class CommonInfo(models.Model):
 class Order(CommonInfo):
     number = models.PositiveIntegerField()
     description = models.CharField(max_length=255)
+
+
+class Line(CommonInfo):
+    UOM_CHOICES = (
+        ('ea', 'Each'),
+        ('ft', 'Feet'),
+        ('yd', 'Yards'),
+    )
+    sku = models.CharField(max_length=20, blank=True)
+    description = models.CharField(max_length=200, blank=True)
+    quantity = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(max_digits=10, decimal_places=4, blank=True, null=True)
+    uom = models.CharField(max_length=2, choices=UOM_CHOICES, default='ea')
+    is_taxable = models.BooleanField(default=False)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='lines')
+
+    def sub_total(self):
+        return self.price * self.quantity
